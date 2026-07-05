@@ -1,0 +1,37 @@
+# Configuration for App 1 (Frontend)
+appOne:
+  name: frontend-app
+  replicas: 2
+  image: nginx:latest
+  containerPort: 80
+  servicePort: 80
+
+# Configuration for App 2 (Backend)
+appTwo:
+  name: backend-app
+  replicas: 2
+  image: httpd:latest
+  containerPort: 80
+  servicePort: 8080
+
+# Global Ingress Configuration
+ingress:
+  enabled: true
+  className: nginx
+  host: a287dd42c0fd94beeb4c492eebaf4328-1101181085.ap-south-2.elb.amazonaws.com
+
+# Custom HTML Content
+htmlContent:
+  frontend: |
+    <!DOCTYPE html>
+    <html>
+    <head><title>Frontend App</title></head>
+    <body><h1>Welcome to the Frontend Application!</h1></body>
+    </html>
+  backend: |
+    <!DOCTYPE html>
+    <html>
+    <head><title>Backend API</title></head>
+    <body><h1>Welcome to the Backend API Stub!</h1></body>
+    </html>
+

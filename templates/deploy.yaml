@@ -1,0 +1,62 @@
+# 1. Frontend Deployment (NGINX)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.appOne.name }}
+  labels:
+    app: {{ .Values.appOne.name }}
+spec:
+  replicas: {{ .Values.appOne.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.appOne.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.appOne.name }}
+    spec:
+      containers:
+        - name: {{ .Values.appOne.name }}
+          image: {{ .Values.appOne.image }}
+          ports:
+            - containerPort: {{ .Values.appOne.containerPort }}
+          volumeMounts:
+            - name: html-volume
+              mountPath: /usr/share/nginx/html/index.html # NGINX web root path
+              subPath: frontend.html
+      volumes:
+        - name: html-volume
+          configMap:
+            name: app-html-config
+---
+# 2. Backend Deployment (Apache / httpd)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.appTwo.name }}
+  labels:
+    app: {{ .Values.appTwo.name }}
+spec:
+  replicas: {{ .Values.appTwo.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.appTwo.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.appTwo.name }}
+    spec:
+      containers:
+        - name: {{ .Values.appTwo.name }}
+          image: {{ .Values.appTwo.image }}
+          ports:
+            - containerPort: {{ .Values.appTwo.containerPort }}
+          volumeMounts:
+            - name: html-volume
+              mountPath: /usr/local/apache2/htdocs/index.html # Apache web root path
+              subPath: backend.html
+      volumes:
+        - name: html-volume
+          configMap:
+            name: app-html-config
+

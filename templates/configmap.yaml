@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-html-config
+data:
+  frontend.html: |
+    {{ .Values.htmlContent.frontend | nindent 4 }}
+  backend.html: |
+    {{ .Values.htmlContent.backend | nindent 4 }}
+

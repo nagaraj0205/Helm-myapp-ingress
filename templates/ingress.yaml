@@ -1,0 +1,34 @@
+{{- if .Values.ingress.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: app-ingress
+  annotations:
+    kubernetes.io/ingress.class: {{ .Values.ingress.className | quote }}
+    # High-utility annotations to fix the 404 routing issue:
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  ingressClassName: {{ .Values.ingress.className }}
+  rules:
+    - host: {{ .Values.ingress.host }}
+      http:
+        paths:
+          # The (.*) captures everything after /front and sends just that to the app
+          - path: /front(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: {{ .Values.appOne.name }}-svc
+                port:
+                  number: {{ .Values.appOne.servicePort }}
+          # The (.*) captures everything after /api and sends just that to the app
+          - path: /api(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: {{ .Values.appTwo.name }}-svc
+                port:
+                  number: {{ .Values.appTwo.servicePort }}
+{{- end }}
+

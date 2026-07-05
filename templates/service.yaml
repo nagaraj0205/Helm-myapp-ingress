@@ -1,0 +1,16 @@
+{{- range $key, $app := list .Values.appOne .Values.appTwo }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $app.name }}-svc
+spec:
+  type: NodePort
+  selector:
+    app: {{ $app.name }}
+  ports:
+    - protocol: TCP
+      port: {{ $app.servicePort }}
+      targetPort: {{ $app.containerPort }}
+---
+{{- end }}
+
