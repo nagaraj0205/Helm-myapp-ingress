@@ -18,7 +18,7 @@ appTwo:
 ingress:
   enabled: true
   className: nginx
-  host: a287dd42c0fd94beeb4c492eebaf4328-1101181085.ap-south-2.elb.amazonaws.com
+  host: a4f11bdac1def43108b214a9b0ca3f23-1441482269.ap-south-2.elb.amazonaws.com
 
 # Custom HTML Content
 htmlContent:
