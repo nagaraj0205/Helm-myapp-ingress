@@ -2,7 +2,7 @@
 appOne:
   name: frontend-app
   replicas: 2
-  image: nginx:latest
+  image: nagarajan02/nginx-demo
   containerPort: 80
   servicePort: 80
 
